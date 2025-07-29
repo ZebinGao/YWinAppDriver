@@ -11,6 +11,7 @@ namespace WinAppDriver.Infra.Helper
   {
     public const string UWP_CLASS_NAME = "Windows.UI.Core.CoreWindow";
     public const string WINUI_CLASS_NAME = "WinUIDesktopWin32WindowClass";
+    public const string WINTOP_CLASS_NAME = "ApplicationFrameWindow";
 
     public static UIObject GetTopLevelUIObject(UIObject topWindow, string[] classNames,
       int timeoutInMilliseconds = 300)

@@ -63,7 +63,7 @@ namespace WinAppDriver.Infra.Communication
         var launchedApp = ModernAppManager.Launch(appName, arguments, condition);
 
         var coreWindow = UIObjectHelpers.GetTopLevelUIObject(launchedApp,
-          new[] { UIObjectHelpers.UWP_CLASS_NAME, UIObjectHelpers.WINUI_CLASS_NAME });
+          new[] { UIObjectHelpers.UWP_CLASS_NAME, UIObjectHelpers.WINUI_CLASS_NAME, UIObjectHelpers.WINTOP_CLASS_NAME });
         var rootWindow = GetTopLevelWindow(coreWindow);
 
         return new Application(new Element(rootWindow), coreWindow.ProcessId);

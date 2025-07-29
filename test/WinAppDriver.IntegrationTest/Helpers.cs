@@ -31,7 +31,7 @@ namespace WinAppDriver.IntegrationTest
     public const string Calculator = "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App";
     public const string Edge = "Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
     public const string AlarmClock = "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App";
-    public const string Notepad = "c:\\windows\\system32\\notepad.exe";
+    public const string Notepad = "c:\\Windows\\system32\\notepad.exe";
     public const string WinVer = "C:\\Windows\\System32\\winver.exe";
   }
   class Helpers
@@ -76,13 +76,14 @@ namespace WinAppDriver.IntegrationTest
       return JsonConvert.DeserializeObject<T>(body);
     }
 
-    public static Task<string> CreateNewSession(HttpClient client, string app)
+    public static Task<string> CreateNewSession(HttpClient client, string app, string ClassName = null)
     {
       return CreateNewSession(client, new NewSessionReq()
       {
         desiredCapabilities = new Capabilities()
         {
-          app = app
+          app = app,
+          forceMatchClassName = ClassName
         }
       });
 

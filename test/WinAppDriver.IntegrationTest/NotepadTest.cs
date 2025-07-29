@@ -17,7 +17,7 @@ namespace WinAppDriver.IntegrationTest
   [Collection("Sequential")]
   public class NotepadTest
   {
-    string TextEditor = "Text Editor";
+    string TextEditor = "Text editor";
     string Editor = "Edit";
 
     [Fact]
@@ -25,7 +25,7 @@ namespace WinAppDriver.IntegrationTest
     {
       using (var client = new TestClientProvider().Client)
       {
-        var sessionId = await Helpers.CreateNewSession(client, AppIds.Notepad);
+        var sessionId = await Helpers.CreateNewSession(client, AppIds.Notepad, "Notepad");
 
         sessionId.Should().NotBeNullOrEmpty();
 

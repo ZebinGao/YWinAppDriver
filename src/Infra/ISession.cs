@@ -31,6 +31,6 @@ namespace WinAppDriver.Infra
     public string GetWindowHandle();
     public IEnumerable<string> GetWindowHandles();
     public IElement GetWindow(string windowId);
-    public string TakeScreenshot(int x, int y, int height, int width);
+    //public string TakeScreenshot(int x, int y, int height, int width);
   }
 }

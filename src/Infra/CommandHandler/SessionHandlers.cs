@@ -198,22 +198,22 @@ namespace WinAppDriver.Infra.CommandHandler
     }
   }
 
-  class TakeScreenshotHandler : SessionCommandHandlerBase<string>
-  {
-    protected override string ExecuteSessionCommand(ISessionManager sessionManager, ISession session, string elementId)
-    {
-      // bring the root window to top first
-      var windowHandle = session.GetApplicationRoot().UI().NativeWindowHandle;
-      Helper.Helpers.SetForegroundWindow(windowHandle);
-      Helper.Helpers.BringWindowToTop(windowHandle);
+  //class TakeScreenshotHandler : SessionCommandHandlerBase<string>
+  //{
+  //  protected override string ExecuteSessionCommand(ISessionManager sessionManager, ISession session, string elementId)
+  //  {
+  //    // bring the root window to top first
+  //    var windowHandle = session.GetApplicationRoot().UI().NativeWindowHandle;
+  //    Helper.Helpers.SetForegroundWindow(windowHandle);
+  //    Helper.Helpers.BringWindowToTop(windowHandle);
 
-      var element = elementId == null ? session.GetApplicationRoot() : session.FindElement(elementId);
-      var desktopWindow = element.GetDesktopRectangle();
-      var elementWindow = element.GetBoundingRectangle();
-      elementWindow.IntersectsWith(desktopWindow);
-      return session.TakeScreenshot(elementWindow.X, elementWindow.Y, elementWindow.Height, elementWindow.Width);
-    }
-  }
+  //    var element = elementId == null ? session.GetApplicationRoot() : session.FindElement(elementId);
+  //    var desktopWindow = element.GetDesktopRectangle();
+  //    var elementWindow = element.GetBoundingRectangle();
+  //    elementWindow.IntersectsWith(desktopWindow);
+  //    return session.TakeScreenshot(elementWindow.X, elementWindow.Y, elementWindow.Height, elementWindow.Width);
+  //  }
+  //}
 
   class GetWindowSizeHandler : SessionCommandHandlerBase<SizeResult>
   {

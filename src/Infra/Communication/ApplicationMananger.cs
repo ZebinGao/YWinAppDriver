@@ -45,37 +45,37 @@ namespace WinAppDriver.Infra.Communication
 
 
     // refer https://github.com/microsoft/microsoft-ui-xaml/blob/40531c714f8003bf0d341a0729fa04dd2ed87710/test/testinfra/MUXTestInfra/Infra/Application.cs#L269
-    public IApplication LaunchModernApp(string appName, string arguments, string forceMatchClassName,
-      string forceMatchAppTitle)
-    {
-      UICondition condition = UICondition.CreateFromClassName("ApplicationFrameWindow")
-        .OrWith(UICondition.CreateFromClassName("Windows.UI.Core.CoreWindow"))
-        .OrWith(UICondition.CreateFromClassName("WinUIDesktopWin32WindowClass"));
+    //public IApplication LaunchModernApp(string appName, string arguments, string forceMatchClassName,
+    //  string forceMatchAppTitle)
+    //{
+    //  UICondition condition = UICondition.CreateFromClassName("ApplicationFrameWindow")
+    //    .OrWith(UICondition.CreateFromClassName("Windows.UI.Core.CoreWindow"))
+    //    .OrWith(UICondition.CreateFromClassName("WinUIDesktopWin32WindowClass"));
 
-      var forceMatch = GetForceMatchCondition(forceMatchAppTitle, forceMatchClassName);
-      if (forceMatch != null)
-      {
-        condition = condition.OrWith(forceMatch);
-      }
+    //  var forceMatch = GetForceMatchCondition(forceMatchAppTitle, forceMatchClassName);
+    //  if (forceMatch != null)
+    //  {
+    //    condition = condition.OrWith(forceMatch);
+    //  }
 
-      try
-      {
-        var launchedApp = ModernAppManager.Launch(appName, arguments, condition);
+    //  try
+    //  {
+    //    var launchedApp = ModernAppManager.Launch(appName, arguments, condition);
 
-        var coreWindow = UIObjectHelpers.GetTopLevelUIObject(launchedApp,
-          new[] { UIObjectHelpers.UWP_CLASS_NAME, UIObjectHelpers.WINUI_CLASS_NAME, UIObjectHelpers.WINTOP_CLASS_NAME });
-        var rootWindow = GetTopLevelWindow(coreWindow);
+    //    var coreWindow = UIObjectHelpers.GetTopLevelUIObject(launchedApp,
+    //      new[] { UIObjectHelpers.UWP_CLASS_NAME, UIObjectHelpers.WINUI_CLASS_NAME, UIObjectHelpers.WINTOP_CLASS_NAME });
+    //    var rootWindow = GetTopLevelWindow(coreWindow);
 
-        return new Application(new Element(rootWindow), coreWindow.ProcessId);
-      }
-      catch
-      {
-        // dump ui object tree to make debugging easier
-        UIObjectHelpers.LogObjectTree(UIObject.Root);
+    //    return new Application(new Element(rootWindow), coreWindow.ProcessId);
+    //  }
+    //  catch
+    //  {
+    //    // dump ui object tree to make debugging easier
+    //    UIObjectHelpers.LogObjectTree(UIObject.Root);
 
-        throw;
-      }
-    }
+    //    throw;
+    //  }
+    //}
 
     public IApplication LaunchLegacyApp(string filename, string arguments, string workingDirectory,
       string forceMatchAppTitle, string forceMatchClassName)
@@ -132,23 +132,24 @@ namespace WinAppDriver.Infra.Communication
         }
       }
 
-      var condition = UICondition.Create(UIProperty.Get(ActionStrings.ProcessId), process.Id);
-      if (forceMatch != null)
-      {
-        condition = condition.OrWith(forceMatch);
-      }
+      //var condition = UICondition.Create(UIProperty.Get(ActionStrings.ProcessId), process.Id);
+      //if (forceMatch != null)
+      //{
+      //  condition = condition.OrWith(forceMatch);
+      //}
 
-      var matched = UIObject.Root.Children.FindMultiple(condition).FirstOrDefault();
-      if (matched != null)
-      {
-        var root = GetTopLevelWindow(matched);
-        return new Application(new Element(root), process.Id);
-      }
-      else
-      {
-        process.Kill();
-        throw new AppLaunchException("Process was created, but fail to match a window");
-      }
+      //var matched = UIObject.Root.Children.FindMultiple(condition).FirstOrDefault();
+      //if (matched != null)
+      //{
+      //  var root = GetTopLevelWindow(matched);
+      //  return new Application(new Element(root), process.Id);
+      //}
+      //else
+      //{
+      //  process.Kill();
+      //  throw new AppLaunchException("Process was created, but fail to match a window");
+      //}
+      throw new AppLaunchException("Process was created, but fail to match a window");
     }
 
 
@@ -156,47 +157,47 @@ namespace WinAppDriver.Infra.Communication
     {
       var app = capabilities.app;
 
-      // Root means the the Windows desktop. It allows user to manipute all applications in Windows
-      // refer https://github.com/microsoft/WinAppDriver/blob/master/Samples/C%23/CortanaTest/BingSearch.cs
-      if (app == "Root")
-      {
-        var attachToTopLevelWindowClassName = capabilities.attachToTopLevelWindowClassName;
+      //// Root means the the Windows desktop. It allows user to manipute all applications in Windows
+      //// refer https://github.com/microsoft/WinAppDriver/blob/master/Samples/C%23/CortanaTest/BingSearch.cs
+      //if (app == "Root")
+      //{
+      //  var attachToTopLevelWindowClassName = capabilities.attachToTopLevelWindowClassName;
 
-        Debug.WriteLine("LaunchApplication attach to " + attachToTopLevelWindowClassName == null
-          ? "Root"
-          : "window with ClassName" + attachToTopLevelWindowClassName);
+      //  Debug.WriteLine("LaunchApplication attach to " + attachToTopLevelWindowClassName == null
+      //    ? "Root"
+      //    : "window with ClassName" + attachToTopLevelWindowClassName);
 
-        if (String.IsNullOrEmpty(attachToTopLevelWindowClassName))
-        {
-          return new Application(new Element(UIObject.Root), UIObject.Root.ProcessId, false);
-        }
-        else
-        {
-          var condition = UICondition.CreateFromClassName(attachToTopLevelWindowClassName);
-          var matched = UIObject.Root.Children.FindMultiple(condition).FirstOrDefault();
-          if (matched == null)
-          {
-            throw new AppLaunchException("There is no window match with class name " +
-                                         attachToTopLevelWindowClassName);
-          }
-          else
-          {
-            return new Application(new Element(matched), matched.ProcessId, false);
-          }
-        }
-      }
-      else if (app.Contains("!"))
-      {
-        Debug.WriteLine("Start UWPApp " + app);
-        return LaunchModernApp(capabilities.app, capabilities.appArguments, capabilities.forceMatchClassName,
-          capabilities.forceMatchAppTitle);
-      }
-      else
-      {
+      //  if (String.IsNullOrEmpty(attachToTopLevelWindowClassName))
+      //  {
+      //    return new Application(new Element(UIObject.Root), UIObject.Root.ProcessId, false);
+      //  }
+      //  else
+      //  {
+      //    var condition = UICondition.CreateFromClassName(attachToTopLevelWindowClassName);
+      //    var matched = UIObject.Root.Children.FindMultiple(condition).FirstOrDefault();
+      //    if (matched == null)
+      //    {
+      //      throw new AppLaunchException("There is no window match with class name " +
+      //                                   attachToTopLevelWindowClassName);
+      //    }
+      //    else
+      //    {
+      //      return new Application(new Element(matched), matched.ProcessId, false);
+      //    }
+      //  }
+      //}
+      //else if (app.Contains("!"))
+      //{
+      //  Debug.WriteLine("Start UWPApp " + app);
+      //  return LaunchModernApp(capabilities.app, capabilities.appArguments, capabilities.forceMatchClassName,
+      //    capabilities.forceMatchAppTitle);
+      //}
+      //else
+      //{
         Debug.WriteLine("Start Legacy app " + capabilities.ToString());
         return LaunchLegacyApp(app, capabilities.appArguments, capabilities.appWorkingDir,
           capabilities.forceMatchAppTitle, capabilities.forceMatchClassName);
-      }
+      //}
     }
   }
 }

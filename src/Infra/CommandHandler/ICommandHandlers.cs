@@ -35,7 +35,7 @@ namespace WinAppDriver.Infra.CommandHandler
     GetWindowSize,
     GetWindowPosition,
     MaximizeWindow,
-    TakeScreenshot,
+    //TakeScreenshot,
     ClickOnElement,
     DevicePushFile,
     DevicePullFile

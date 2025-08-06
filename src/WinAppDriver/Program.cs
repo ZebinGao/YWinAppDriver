@@ -1,5 +1,8 @@
 // Copyright (c) https://github.com/licanhua/YWinAppDriver. All rights reserved.
 // Licensed under the MIT License.
+// This is stable version with test cases,
+// just fix the problem notepad test failed under win11
+// and use ApplicationFrameWindow to match window
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

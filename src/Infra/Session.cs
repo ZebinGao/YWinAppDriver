@@ -261,9 +261,6 @@ namespace WinAppDriver.Infra
     private void SaveWindowToCache(string key, IElement element)
     {
       _cache.AddWindow(key, element);
-      //不刷新元素缓存，更新根节点
-      _application.SetApplicationRoot((UIObject)(element.GetUIObject()));
-      //DFS(element);
     }
 
     public string GetWindowHandle()
@@ -306,24 +303,24 @@ namespace WinAppDriver.Infra
       }
     }
 
-    //public string TakeScreenshot(int x, int y, int height, int width)
-    //{
-    //  x = Math.Max(0, x);
-    //  y = Math.Max(0, y);
-    //  height = Math.Max(1, height);
-    //  width = Math.Max(1, width);
-    //  using var bitmap = new Bitmap(width, height);
-    //  using (var g = Graphics.FromImage(bitmap))
-    //  {
-    //    g.CopyFromScreen(x, y, 0, 0,
-    //    bitmap.Size, CopyPixelOperation.SourceCopy);
-    //  }
+    public string TakeScreenshot(int x, int y, int height, int width)
+    {
+      x = Math.Max(0, x);
+      y = Math.Max(0, y);
+      height = Math.Max(1, height);
+      width = Math.Max(1, width);
+      using var bitmap = new Bitmap(width, height);
+      using (var g = Graphics.FromImage(bitmap))
+      {
+        g.CopyFromScreen(x, y, 0, 0,
+        bitmap.Size, CopyPixelOperation.SourceCopy);
+      }
 
-    //  using (MemoryStream ms = new MemoryStream())
-    //  {
-    //    bitmap.Save(ms, ImageFormat.Png);
-    //    return System.Convert.ToBase64String(ms.ToArray());
-    //  }
-    //}
+      using (MemoryStream ms = new MemoryStream())
+      {
+        bitmap.Save(ms, ImageFormat.Png);
+        return System.Convert.ToBase64String(ms.ToArray());
+      }
+    }
   }
 }

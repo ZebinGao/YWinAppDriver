@@ -260,13 +260,7 @@ namespace WinAppDriver.Infra
 
     private void SaveWindowToCache(string key, IElement element)
     {
-<<<<<<< HEAD
       _cache.AddWindow(key, element);
-=======
-      _cache.AddWindow(key, element);
-      //刷新元素缓存
-      DFS(element);
->>>>>>> parent of 2ad6abe... do not update elements cache when switch to new window, instead change the root node of UI auto tree.
     }
 
     public string GetWindowHandle()

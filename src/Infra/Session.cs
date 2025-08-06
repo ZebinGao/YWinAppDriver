@@ -261,8 +261,6 @@ namespace WinAppDriver.Infra
     private void SaveWindowToCache(string key, IElement element)
     {
       _cache.AddWindow(key, element);
-      //刷新元素缓存
-      DFS(element);
     }
 
     public string GetWindowHandle()

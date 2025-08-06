@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Windows.Apps.Test.Foundation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -264,10 +265,13 @@ namespace WinAppDriver.Infra
 
     private void SaveWindowToCache(string key, IElement element)
     {
-      _cache.AddWindow(key, element);
-      //不刷新元素缓存，更新根节点
-      _application.SetApplicationRoot((UIObject)(element.GetUIObject()));
-      //DFS(element);
+      if (_application.GetProcessId() == ((UIObject)element.GetUIObject()).ProcessId)
+      {
+        _cache.AddWindow(key, element);
+        //不刷新元素缓存，更新根节点
+        _application.SetApplicationRoot((UIObject)(element.GetUIObject()));
+        //DFS(element);
+      }
     }
 
     public string GetWindowHandle()

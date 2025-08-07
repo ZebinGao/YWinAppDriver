@@ -39,7 +39,7 @@ namespace WinAppDriver.Infra.CommandHandler
       { Command.SetWindowPosition, new SetWindowPositionHandler() },
       { Command.GetWindowSize, new GetWindowSizeHandler() },
       { Command.SetWindowSize, new SetWindowSizeHandler() },
-      { Command.TakeScreenshot, new TakeScreenshotHandler() },
+      //{ Command.TakeScreenshot, new TakeScreenshotHandler() },
       { Command.ClickOnElement, new ClickHandler() },
       { Command.DevicePushFile, new DevicePushFileHandler() },
       { Command.DevicePullFile, new DevicePullFileHandler() }

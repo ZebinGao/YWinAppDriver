@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Windows.Apps.Test.Foundation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -22,12 +23,12 @@ namespace WinAppDriver.Infra
     private Dictionary<string, IElement> _windowCache = new Dictionary<string, IElement>();
     public ElementCache()
     {
-      _cache[LocatorStrategy.AccessibilityId] = new Dictionary<string, IElement>();
-      _cache[LocatorStrategy.ClassName] = new Dictionary<string, IElement>();
+      //_cache[LocatorStrategy.AccessibilityId] = new Dictionary<string, IElement>();
+      //_cache[LocatorStrategy.ClassName] = new Dictionary<string, IElement>();
       _cache[LocatorStrategy.Id] = new Dictionary<string, IElement>();
-      _cache[LocatorStrategy.Name] = new Dictionary<string, IElement>();
-      _cache[LocatorStrategy.TagName] = new Dictionary<string, IElement>();
-      _cache[LocatorStrategy.XPath] = new Dictionary<string, IElement>();
+      //_cache[LocatorStrategy.Name] = new Dictionary<string, IElement>();
+      //_cache[LocatorStrategy.TagName] = new Dictionary<string, IElement>();
+      //_cache[LocatorStrategy.XPath] = new Dictionary<string, IElement>();
     }
 
     public void AddWindow(string key, IElement element)
@@ -48,28 +49,28 @@ namespace WinAppDriver.Infra
     public void AddElement(IElement element) 
     {
       _cache[LocatorStrategy.Id][element.GetId()] = element;
-      var value = element.GetAttribute(LocatorStrategy.AccessibilityId);
-      if (!string.IsNullOrEmpty(value))
-      { _cache[LocatorStrategy.AccessibilityId][value] = element; 
-      }
+      //var value = element.GetAttribute(LocatorStrategy.AccessibilityId);
+      //if (!string.IsNullOrEmpty(value))
+      //{ _cache[LocatorStrategy.AccessibilityId][value] = element; 
+      //}
 
-      value = element.GetAttribute(LocatorStrategy.ClassName);
-      if (!string.IsNullOrEmpty(value))
-      {
-        _cache[LocatorStrategy.ClassName][value] = element;
-      }
+      //value = element.GetAttribute(LocatorStrategy.ClassName);
+      //if (!string.IsNullOrEmpty(value))
+      //{
+      //  _cache[LocatorStrategy.ClassName][value] = element;
+      //}
 
-      value = element.GetAttribute(LocatorStrategy.Name);
-      if (!string.IsNullOrEmpty(value))
-      {
-        _cache[LocatorStrategy.Name][value] = element;
-      }
+      //value = element.GetAttribute(LocatorStrategy.Name);
+      //if (!string.IsNullOrEmpty(value))
+      //{
+      //  _cache[LocatorStrategy.Name][value] = element;
+      //}
 
-      value = element.GetAttribute(LocatorStrategy.TagName);
-      if (!string.IsNullOrEmpty(value))
-      {
-        _cache[LocatorStrategy.TagName][value] = element;
-      }
+      //value = element.GetAttribute(LocatorStrategy.TagName);
+      //if (!string.IsNullOrEmpty(value))
+      //{
+      //  _cache[LocatorStrategy.TagName][value] = element;
+      //}
     }
 
     public IElement GetOrDefault(LocatorStrategy locator, string key)
@@ -163,10 +164,14 @@ namespace WinAppDriver.Infra
     public IElement FindElement(Locator locator)
     {
       // check cache first
-      var cached = _cache.GetOrDefault(locator.Strategy, locator.Value);
-      if (cached != null)
+      if(locator.Strategy== LocatorStrategy.Id)
       {
-        return cached;
+        var cached = _cache.GetOrDefault(locator.Strategy, locator.Value);
+        if (cached != null)
+        {
+          return cached;
+        }
+
       }
 
       _logger.LogError("Miss cache");
@@ -260,7 +265,13 @@ namespace WinAppDriver.Infra
 
     private void SaveWindowToCache(string key, IElement element)
     {
-      _cache.AddWindow(key, element);
+      if (_application.GetProcessId() == ((UIObject)element.GetUIObject()).ProcessId)
+      {
+        _cache.AddWindow(key, element);
+        //不刷新元素缓存，更新根节点
+        _application.SetApplicationRoot((UIObject)(element.GetUIObject()));
+        //DFS(element);
+      }
     }
 
     public string GetWindowHandle()
@@ -303,24 +314,24 @@ namespace WinAppDriver.Infra
       }
     }
 
-    public string TakeScreenshot(int x, int y, int height, int width)
-    {
-      x = Math.Max(0, x);
-      y = Math.Max(0, y);
-      height = Math.Max(1, height);
-      width = Math.Max(1, width);
-      using var bitmap = new Bitmap(width, height);
-      using (var g = Graphics.FromImage(bitmap))
-      {
-        g.CopyFromScreen(x, y, 0, 0,
-        bitmap.Size, CopyPixelOperation.SourceCopy);
-      }
+    //public string TakeScreenshot(int x, int y, int height, int width)
+    //{
+    //  x = Math.Max(0, x);
+    //  y = Math.Max(0, y);
+    //  height = Math.Max(1, height);
+    //  width = Math.Max(1, width);
+    //  using var bitmap = new Bitmap(width, height);
+    //  using (var g = Graphics.FromImage(bitmap))
+    //  {
+    //    g.CopyFromScreen(x, y, 0, 0,
+    //    bitmap.Size, CopyPixelOperation.SourceCopy);
+    //  }
 
-      using (MemoryStream ms = new MemoryStream())
-      {
-        bitmap.Save(ms, ImageFormat.Png);
-        return System.Convert.ToBase64String(ms.ToArray());
-      }
-    }
+    //  using (MemoryStream ms = new MemoryStream())
+    //  {
+    //    bitmap.Save(ms, ImageFormat.Png);
+    //    return System.Convert.ToBase64String(ms.ToArray());
+    //  }
+    //}
   }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) https://github.com/licanhua/YWinAppDriver. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.Windows.Apps.Test.Foundation;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -25,6 +26,19 @@ namespace WinAppDriver.Infra.Communication
     public int GetProcessId()
     {
       return _processId;
+    }
+
+    public void SetApplicationRoot(UIObject newRoot)
+    {
+      if (newRoot.Name == "Bean UI BHSNB01")
+      {
+        _appRoot = new Element(newRoot);
+      }
+      else if(newRoot.Name == "LoginWindow")
+      {
+        _appRoot = new Element(newRoot);
+      }
+      
     }
 
     public void QuitApplication()

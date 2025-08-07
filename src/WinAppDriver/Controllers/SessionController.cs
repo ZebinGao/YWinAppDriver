@@ -323,19 +323,19 @@ namespace WinAppDriver.Controllers
       return ExecuteCommand(Command.AppiumLaunchApp, sessionId, null, null);
     }
 
-    [HttpGet]
-    [Route("{sessionId}/screenshot")]
-    public IActionResult TakeScreenshot(string sessionId)
-    {
-      return ExecuteCommand(Command.TakeScreenshot, sessionId, null, null);
-    }
+    //[HttpGet]
+    //[Route("{sessionId}/screenshot")]
+    //public IActionResult TakeScreenshot(string sessionId)
+    //{
+    //  return ExecuteCommand(Command.TakeScreenshot, sessionId, null, null);
+    //}
 
-    [HttpGet]
-    [Route("{sessionId}/element/{elementId}/screenshot")]
-    public IActionResult TakeScreenshot(string sessionId, string elementId)
-    {
-      return ExecuteCommand(Command.TakeScreenshot, sessionId, null, elementId);
-    }
+    //[HttpGet]
+    //[Route("{sessionId}/element/{elementId}/screenshot")]
+    //public IActionResult TakeScreenshot(string sessionId, string elementId)
+    //{
+    //  return ExecuteCommand(Command.TakeScreenshot, sessionId, null, elementId);
+    //}
 
     [HttpPost]
     [Route("{sessionId}/timeouts/async_script")]

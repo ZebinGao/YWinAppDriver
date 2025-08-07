@@ -38,7 +38,11 @@ namespace WinAppDriver.Infra.Communication
       {
         _appRoot = new Element(newRoot);
       }
-      
+      else if (newRoot.Name == "Select Recipe")
+      {
+        _appRoot = new Element(newRoot);
+      }
+
     }
 
     public void QuitApplication()

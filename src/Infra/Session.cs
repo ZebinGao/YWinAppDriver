@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using WinAppDriver.Infra.Communication;
 
 namespace WinAppDriver.Infra
@@ -304,6 +305,8 @@ namespace WinAppDriver.Infra
       var cached = GetWindowFromCache(windowId);
       if (cached != null)
       {
+        //当select recipe结束的时候，需要切回MainWindow
+        _application.SetApplicationRoot((UIObject)(cached.GetUIObject()));
         return cached;
       }
       else

@@ -423,7 +423,8 @@ namespace WinAppDriver.Infra.Communication
       var condition = UICondition.CreateFromClassName("Window").OrWith(UICondition.CreateFromClassName("ApplicationFrameWindow"));
       foreach (var window in UIObject.Root.Descendants.FindMultiple(condition))
       {
-        if (window.ProcessId == _uiObject.ProcessId || _uiObject == UIObject.Root || _uiObject.Parent == UIObject.Root) // root returns itself and all its child process window
+        //just for specific application, one session contains windows those have the same ProcessId
+        if (window.ProcessId == _uiObject.ProcessId)// || _uiObject == UIObject.Root || _uiObject.Parent == UIObject.Root) // root returns itself and all its child process window
         {
           result.Add(window);
         }
